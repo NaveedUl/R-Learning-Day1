@@ -1,0 +1,42 @@
+# Print welcome messages
+print("Hi! Welcome to the Course")
+# print(Hi Welcome to the Course)  # This will cause an error
+
+# Sequence data
+data <- 1:10
+data[0]  # R is 1-indexed, so this will return integer(0)
+
+# Import CSV or Excel data
+data <- read.csv(file.choose()) 
+# Choose a file manually via popup
+
+# Install required packages (only once)
+install.packages("readxl")
+install.packages("dplyr")
+
+# Load Excel file
+library(readxl)
+naveed <- read_excel(file.choose()) 
+# Example: Fragile States Index Data
+
+# View structure
+colnames(naveed)
+row.names(naveed)
+rownames(naveed$country)  # Likely NULL if $country is a vector, not a dataframe
+
+# Extract and manipulate columns
+sample_names <- naveed$Country
+mr_naveed <- naveed[, -1]          # Remove first column
+mr_naveed <- naveed[, -1:-5]       # Remove first 5 columns
+mr_naveed_selected_columns <- naveed[, 1:5]  # Select first 5 columns
+mr_naveed_selected_data <- naveed[21, 1:5]   # Data from 21st row
+
+# Rename a single column
+colnames(naveed)[1] <- "Region"
+
+# Rename multiple columns using dplyr
+library(dplyr)
+naveed <- naveed %>% rename_with(
+  ~ gsub("A", "NEW", .x),
+  .cols = contains("A")
+)
